@@ -17,7 +17,8 @@ rm -rf "$B" && mkdir -p "$B/gen" "$B/classes" "$B/dex"
 "$BT/aapt2" compile --dir res -o "$B/res.zip"
 "$BT/aapt2" link -o "$B/base.apk" -I "$JAR" --manifest AndroidManifest.xml --java "$B/gen" \
   -A assets --min-sdk-version 30 --target-sdk-version 30 "$B/res.zip"
-javac -nowarn -Xlint:-options --release 11 -classpath "$JAR" -d "$B/classes" \
+# Keep parameter names: D8 34 can fail on unnamed MethodParameters emitted by JDK 21.
+javac -parameters -nowarn -Xlint:-options --release 11 -classpath "$JAR" -d "$B/classes" \
   $(find src "$B/gen" -name '*.java')
 "$BT/d8" --min-api 30 --lib "$JAR" --output "$B/dex" $(find "$B/classes" -name '*.class')
 cp "$B/base.apk" "$B/unsigned.apk"

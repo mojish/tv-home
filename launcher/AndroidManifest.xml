@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mihir.tvhome"
     android:versionCode="1"
-    android:versionName="1.0">
+    android:versionName="1.4">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,8 +17,10 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
         </intent>
-        <package android:name="com.tcl.tv" />
-        <package android:name="com.tcl.suspension" />
+        <package android:name="com.sony.dtv.tvx" />
+        <package android:name="com.sony.dtv.notificationcenter" />
+        <package android:name="com.sony.dtv.configsettings" />
+        <package android:name="com.sony.dtv.timers" />
     </queries>
 
     <application
@@ -27,6 +29,16 @@
         android:banner="@drawable/ic_home"
         android:allowBackup="false"
         android:theme="@style/Home">
+
+        <service
+            android:name=".HomeNotifications"
+            android:label="Home notifications"
+            android:exported="true"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".MainActivity"
